@@ -68,14 +68,14 @@ async def on_ready():
     await bot.change_presence(
         activity=discord.Activity(
             type=discord.ActivityType.listening,
-            name="/rank [name] 🐐"
+            name="/goat [name] 🐐"
         )
     )
     print(f"GOAT Bot is online as {bot.user}")
 
-@bot.tree.command(name="rank", description="Get a full breakdown + GOAT/Icon/Legend verdict")
+@bot.tree.command(name="goat", description="Get a full career breakdown + GOAT/Icon/Legend verdict")
 @app_commands.describe(name="Who do you want ranked? (artist, athlete, anyone)")
-async def rank(interaction: discord.Interaction, name: str):
+async def goat(interaction: discord.Interaction, name: str):
     await interaction.response.defer(thinking=True)
     try:
         response = client.messages.create(
@@ -112,16 +112,16 @@ async def compare(interaction: discord.Interaction, person1: str, person2: str):
     except Exception as e:
         await interaction.followup.send(f"Something went wrong. Try again.\nError: {e}")
 
-@bot.tree.command(name="help", description="Show all GOAT Bot commands")
-async def help_command(interaction: discord.Interaction):
+@bot.tree.command(name="goathelp", description="Show all GOAT Bot commands")
+async def goathelp(interaction: discord.Interaction):
     embed = discord.Embed(
         title="GOAT Bot — Commands",
         description="Settle the debate with receipts.",
         color=0xFFD700
     )
-    embed.add_field(name="/rank [name]", value="Full breakdown + GOAT/Icon/Legend verdict\nExample: /rank Beyonce", inline=False)
+    embed.add_field(name="/goat [name]", value="Full breakdown + GOAT/Icon/Legend verdict\nExample: /goat Beyonce", inline=False)
     embed.add_field(name="/compare [person1] [person2]", value="Head to head comparison\nExample: /compare LeBron Kobe", inline=False)
-    embed.add_field(name="Tiers", value="GOAT = Changed culture permanently\nICON = Defined their era\nLEGEND = Hall of fame respected", inline=False)
+    embed.add_field(name="Tiers", value="🐐 GOAT = Changed culture permanently\n⭐ ICON = Defined their era\n🏆 LEGEND = Hall of fame respected", inline=False)
     await interaction.response.send_message(embed=embed)
 
 bot.run(DISCORD_TOKEN)
