@@ -1,0 +1,1 @@
+worker: python goat_bot.py
