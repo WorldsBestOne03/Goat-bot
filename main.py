@@ -1,4 +1,19 @@
-"""
+import discord
+from discord import app_commands
+from discord.ext import commands
+import anthropic
+import os
+
+DISCORD_TOKEN = os.environ["DISCORD_TOKEN"]
+ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
+
+client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+
+intents = discord.Intents.default()
+intents.message_content = True
+bot = commands.Bot(command_prefix="!", intents=intents)
+
+SYSTEM_PROMPT = """
 You are GOAT Bot — the ultimate cultural figure ranking judge for a Discord server.
 
 Rank any artist, athlete, entertainer, or public figure into one of three tiers:
@@ -36,16 +51,7 @@ When given a name, respond with this exact format:
 Be confident, direct, and debate-ready. Works for musicians, athletes, actors, anyone.
 """
 
-def ask_claude(name: str) -> str:
-    response = client.messages.create(
-        model="claude-sonnet-4-20250514",
-        max_tokens=1200,
-        system=SYSTEM_PROMPT,
-        messages=[{"role": "user", "content": f"Rank this person: {name}"}],
-    )
-    return response.content[0].text
-
-def split_message(text: str, limit: int = 1900):
+def split_message(text, limit=1900):
     chunks = []
     while len(text) > limit:
         split_at = text.rfind("\n", 0, limit)
@@ -72,7 +78,13 @@ async def on_ready():
 async def rank(interaction: discord.Interaction, name: str):
     await interaction.response.defer(thinking=True)
     try:
-        result = ask_claude(name)
+        response = client.messages.create(
+            model="claude-sonnet-4-20250514",
+            max_tokens=1200,
+            system=SYSTEM_PROMPT,
+            messages=[{"role": "user", "content": f"Rank this person: {name}"}],
+        )
+        result = response.content[0].text
         chunks = split_message(result)
         await interaction.followup.send(chunks[0])
         for chunk in chunks[1:]:
