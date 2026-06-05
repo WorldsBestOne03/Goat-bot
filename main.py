@@ -99,7 +99,7 @@ async def compare(interaction: discord.Interaction, person1: str, person2: str):
     try:
         prompt = f"Compare these two head to head and rank each one as GOAT, ICON, or LEGEND: {person1} vs {person2}. Give each their own breakdown then a final verdict on who wins the debate."
         response = client.messages.create(
-            model="claude-3-5-sonnet-20241022",
+            model="claude-haiku-4-5-20251001",
             max_tokens=1500,
             system=SYSTEM_PROMPT,
             messages=[{"role": "user", "content": prompt}],
