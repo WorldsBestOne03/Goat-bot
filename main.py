@@ -79,7 +79,7 @@ async def goat(interaction: discord.Interaction, name: str):
     await interaction.response.defer(thinking=True)
     try:
         response = client.messages.create(
-            model="claude-sonnet-4-20250514",
+            model="claude-3-5-sonnet-20241022",
             max_tokens=1200,
             system=SYSTEM_PROMPT,
             messages=[{"role": "user", "content": f"Rank this person: {name}"}],
@@ -99,7 +99,7 @@ async def compare(interaction: discord.Interaction, person1: str, person2: str):
     try:
         prompt = f"Compare these two head to head and rank each one as GOAT, ICON, or LEGEND: {person1} vs {person2}. Give each their own breakdown then a final verdict on who wins the debate."
         response = client.messages.create(
-            model="claude-sonnet-4-20250514",
+            model="claude-3-5-sonnet-20241022",
             max_tokens=1500,
             system=SYSTEM_PROMPT,
             messages=[{"role": "user", "content": prompt}],
