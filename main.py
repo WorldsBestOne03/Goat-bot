@@ -79,7 +79,7 @@ async def goat(interaction: discord.Interaction, name: str):
     await interaction.response.defer(thinking=True)
     try:
         response = client.messages.create(
-            model="claude-3-5-sonnet-20241022",
+            model="claude-haiku-4-5-20251001",
             max_tokens=1200,
             system=SYSTEM_PROMPT,
             messages=[{"role": "user", "content": f"Rank this person: {name}"}],
